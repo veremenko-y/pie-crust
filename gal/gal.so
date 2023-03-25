@@ -1,0 +1,106 @@
+CSIM(WM): CUPL Simulation Program
+Version 5.0a Serial# MW-10400000
+Copyright (c) 1983, 1998 Logical Devices, Inc.
+CREATED Wed Dec 14 02:37:02 2022
+
+LISTING FOR SIMULATION FILE: gal.si
+
+   1: Name     gal ;
+   2: PartNo   00 ;
+   3: Date     2022-10-10 ;
+   4: Revision 1,1 ;
+                   ^
+[0025sa] Please note: inconsistent header information
+
+   5: Designer Yaroslav Veremenko ;
+   6: Company   ;
+   7: Assembly  ;
+   8: Location  ;
+   9: Device   g20v8a ;
+  10: 
+  11: FIELD ADDR = [ADDR3,ADDR2,ADDR1,ADDR0];
+  12:
+  13: ORDER: 
+  14:     clk, !oe, %1, ADDR, %1, "R\W:", RW, %1, " /IO/DEV/STR:", !IOSELECT, !DEVSELECT, !IOSTROBE, " FF:", ADDRFF1, ADDRFF2, " I:", INHIBIT, " D:", DATA0, " /R:", !RESET,
+  15:     " PI/OE:", PIENABLE, !PIOE, " RAM/OE:", RAMENABLE, !RAMOE, %1, 
+  16:     RAMEXEC, RAM_A12, C800_EXTENDED ;
+  17: 
+
+=================================================================================
+                                                                             C   
+                                                                             8   
+                                                                             0   
+                                  !                                          0   
+                                 !D!                                    R    _   
+                                 IEI                          P         A    E   
+                                 OVO    AA   I                I         M  RRX   
+                                 SSS    DD   N        !       E         E! AAT   
+                                 EET    DD   H   D    R       N!        NR MME   
+                                 LLR    RR   I   A    E       AP        AA E_N   
+      c!                         EEO    FF   B   T    S       BI        BM XAD   
+      lo          R              CCB    FF   I   A    E       LO        LO E1E   
+      ke ADDR     W              TTE    12   T   0    T       EE        EE C2D   
+=================================================================================
+=== Reset and stabilize ===
+0001: C0 0000 R\W:1  /IO/DEV/STR:111 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:LH HHH
+0002: C0 0000 R\W:1  /IO/DEV/STR:111 FF:00 I:0 D:0 /R:0 PI/OE:LH RAM/OE:LH LLL
+0003: C0 0000 R\W:1  /IO/DEV/STR:111 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:LH LLL
+=== Ignore all ===
+0004: C0 0000 R\W:0  /IO/DEV/STR:111 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:LH LLL
+0005: C0 0001 R\W:1  /IO/DEV/STR:111 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:LH LLL
+0006: C0 1111 R\W:1  /IO/DEV/STR:111 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:LH LLL
+0007: C0 0001 R\W:0  /IO/DEV/STR:111 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:LH LLL
+0008: C0 1111 R\W:0  /IO/DEV/STR:111 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:LH LLL
+=== IO and DEV access ===
+    Read PI
+0009: C0 0000 R\W:1  /IO/DEV/STR:011 FF:00 I:0 D:0 /R:1 PI/OE:HL RAM/OE:LH LLL
+    Write RAM
+0010: C0 0000 R\W:0  /IO/DEV/STR:011 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:HH LLL
+    Write RAM C800 Disabled
+0011: C0 0000 R\W:0  /IO/DEV/STR:110 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:LH LLL
+    Inhibit doesn't change RAM Exec, but enables C800
+0012: C0 0000 R\W:0  /IO/DEV/STR:101 FF:00 I:1 D:1 /R:1 PI/OE:HH RAM/OE:LH LLH
+    Write RAM C800 Enabled
+0013: C0 0000 R\W:0  /IO/DEV/STR:110 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:HH LLH
+    Inhibit doesn't change RAM Exec
+0014: C0 0000 R\W:0  /IO/DEV/STR:101 FF:00 I:1 D:1 /R:1 PI/OE:HH RAM/OE:LH LLH
+    Enable RAM Exec
+0015: C0 0000 R\W:0  /IO/DEV/STR:101 FF:00 I:0 D:1 /R:1 PI/OE:HH RAM/OE:LH HLH
+    Inhibit doesn't change RAM Exec
+0016: C0 0000 R\W:0  /IO/DEV/STR:101 FF:00 I:1 D:0 /R:1 PI/OE:HH RAM/OE:LH HLH
+    Disable RAM Exec
+0017: C0 0000 R\W:0  /IO/DEV/STR:101 FF:00 I:0 D:0 /R:1 PI/OE:HH RAM/OE:LH LLH
+    Enable RAM Exec
+0018: C0 0000 R\W:0  /IO/DEV/STR:101 FF:00 I:0 D:1 /R:1 PI/OE:HH RAM/OE:LH HLH
+    Read RAM
+0019: C0 0000 R\W:1  /IO/DEV/STR:011 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:HL HLH
+    Write PI
+0020: C0 0000 R\W:0  /IO/DEV/STR:011 FF:00 I:0 D:0 /R:1 PI/OE:HH RAM/OE:LH HLH
+    NOP C800 Stays
+0021: C0 0000 R\W:0  /IO/DEV/STR:111 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:LH HLH
+    Read C800
+0022: C0 0000 R\W:1  /IO/DEV/STR:110 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:HL HLH
+    Reset C800 Page (invalid, low nibble is not F)
+0023: C0 0000 R\W:0  /IO/DEV/STR:110 FF:11 I:0 D:0 /R:1 PI/OE:LH RAM/OE:LH HLH
+    Reset C800 Page
+0024: C0 1111 R\W:0  /IO/DEV/STR:110 FF:11 I:0 D:0 /R:1 PI/OE:LH RAM/OE:LH HLL
+    Read C800 Disabled if C800 Reset
+0025: C0 0000 R\W:1  /IO/DEV/STR:110 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:LH HLL
+    Write RAM C800 Disabled
+0026: C0 0000 R\W:0  /IO/DEV/STR:110 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:LH HLL
+    Enable A12 Exec
+0027: C0 0001 R\W:0  /IO/DEV/STR:101 FF:00 I:0 D:1 /R:1 PI/OE:HH RAM/OE:LH HHH
+    Disable RAM Exec
+0028: C0 0000 R\W:0  /IO/DEV/STR:101 FF:00 I:0 D:0 /R:1 PI/OE:HH RAM/OE:LH LHH
+    Read RAM C800 even if RAM Exec is disabled
+0029: C0 0000 R\W:1  /IO/DEV/STR:110 FF:00 I:0 D:0 /R:1 PI/OE:LH RAM/OE:HL LHH
+    Read PI ignore A12
+0030: C0 0000 R\W:1  /IO/DEV/STR:011 FF:00 I:0 D:0 /R:1 PI/OE:HL RAM/OE:LH LHH
+    Read PI IO
+0031: C0 0000 R\W:1  /IO/DEV/STR:101 FF:00 I:0 D:0 /R:1 PI/OE:HL RAM/OE:LH LHH
+    Disable A12 Exec
+0032: C0 0001 R\W:0  /IO/DEV/STR:101 FF:00 I:0 D:0 /R:1 PI/OE:HH RAM/OE:LH LLH
+    Read PI IO
+0033: C0 1111 R\W:1  /IO/DEV/STR:101 FF:00 I:0 D:0 /R:1 PI/OE:HL RAM/OE:LH LLH
+    Write PI IO
+0034: C0 1111 R\W:0  /IO/DEV/STR:101 FF:00 I:0 D:0 /R:1 PI/OE:HH RAM/OE:LH LLH

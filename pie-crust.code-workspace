@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "firmware"
+		},
+		{
+			"path": "gal"
+		},
+		{
+			"path": "pico"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"stdlib.h": "c",
+			"typeinfo": "cpp"
+		},
+		"customLocalFormatters.formatters": [
+			{
+			  "command": "powershell -File format.ps1 ${file}",
+			  "languages": ["ca65"]
+			}
+		]
+	}
+}

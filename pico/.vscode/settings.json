@@ -1,0 +1,16 @@
+{
+    "cmake.configureArgs": [
+        "-DPICO_BOARD=pico_w",
+        "-DPICO_SDK_PATH=../../../pico-sdk"
+    ],
+    "cmake.generator": "MinGW Makefiles",
+    "files.associations": {
+        "multicore.h": "c",
+        "time.h": "c",
+        "stdlib.h": "c",
+        "bus.pio.h": "c",
+        "cyw43_arch.h": "c",
+        "clocks.h": "c",
+        "stdio_uart.h": "c"
+    }
+}

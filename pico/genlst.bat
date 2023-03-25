@@ -1,0 +1,1 @@
+arm-none-eabi-objdump.exe -S build\pico.elf > build\pico.lst

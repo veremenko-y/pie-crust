@@ -1,0 +1,94 @@
+.define public enable_pin 2
+.define public devselect_pin 4
+.define public rw_pin 5
+
+.define public addr_pins 7
+.define public data_pins 15
+
+.define ADDR_IRQ 7
+.define DATA_IRQ 6
+
+.program addr_bus
+.wrap_target
+    wait 0 gpio enable_pin
+    wait 1 gpio enable_pin
+    in pins, 13
+    irq ADDR_IRQ
+    irq DATA_IRQ
+.wrap
+
+% c-sdk {
+static inline void addr_bus_program_init(PIO pio, uint sm, uint offset)
+{
+    pio_sm_config c = addr_bus_program_get_default_config(offset);
+
+    sm_config_set_in_pins(&c, enable_pin);
+    sm_config_set_in_shift(&c, false, true, 8 + 5);
+
+    pio_sm_init(pio, sm, offset, &c);
+    pio_sm_set_enabled(pio, sm, true);
+}
+%}
+
+.program bus_dir
+.side_set 4 opt pindirs
+.wrap_target
+start:
+    wait 1 irq ADDR_IRQ
+    ;nop
+    ;nop
+    jmp pin read
+write:
+    jmp start
+read:
+    set pindirs, 15 side 15 
+    wait 0 gpio enable_pin
+    set pindirs, 0 side 0 
+.wrap
+
+% c-sdk {
+static inline void bus_dir_program_init(PIO pio, uint sm, uint offset)
+{
+    pio_sm_config c = bus_dir_program_get_default_config(offset);
+
+    sm_config_set_set_pins(&c, data_pins, 4);
+    sm_config_set_sideset_pins(&c, data_pins + 4);
+
+    sm_config_set_jmp_pin(&c, rw_pin);
+    pio_sm_init(pio, sm, offset, &c);
+    pio_sm_set_enabled(pio, sm, true);
+}
+%}
+
+.program data_bus
+.wrap_target
+start:
+    wait 1 irq DATA_IRQ
+    jmp pin read
+write:
+    nop [16]
+    in pins, 8
+    jmp start
+read:
+    out pins, 8
+.wrap
+
+% c-sdk {
+static inline void data_bus_program_init(PIO pio, uint sm, uint offset)
+{
+    pio_sm_config c = data_bus_program_get_default_config(offset);
+
+    sm_config_set_in_pins(&c, data_pins);
+    sm_config_set_in_shift(&c, true, true, 8);
+
+    sm_config_set_out_pins(&c, data_pins, 8);
+    sm_config_set_out_shift(&c, true, true, 8);
+
+    for (uint gpio = data_pins; gpio < data_pins + 8; gpio++)
+        pio_gpio_init(pio, gpio);
+
+    sm_config_set_jmp_pin(&c, rw_pin);
+    pio_sm_init(pio, sm, offset, &c);
+    pio_sm_set_enabled(pio, sm, true);
+}
+%}

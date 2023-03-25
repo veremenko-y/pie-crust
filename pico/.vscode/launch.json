@@ -1,0 +1,63 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    // {
+    //   "name": "Pico Attach",
+    //   "cwd": "${workspaceRoot}",
+    //   "executable": "${command:cmake.launchTargetPath}",
+    //   "request": "attach",
+    //   "type": "cortex-debug",
+    //   "servertype": "external",
+    //   // This may need to be arm-none-eabi-gdb depending on your system
+    //   "gdbPath": "arm-none-eabi-gdb",
+    //   "gdbTarget": "\\\\.\\COM10",
+    //   "device": "RP2040",
+    //   "svdFile": "../../pico-sdk/src/rp2040/hardware_regs/rp2040.svd",
+    //   "preAttachCommands": [
+    //     "set mem inaccessible-by-default off"
+    //   ],
+    //   "postAttachCommands": [
+    //     "monitor bla bla"
+    //     // "-break-insert -t --function main",
+    //     // "monitor reset 0",
+    //     // "-exec-run"
+    //   ],
+    // },
+    {
+      "name": "Pico Launch",
+      "cwd": "${workspaceRoot}",
+      "executable": "${command:cmake.launchTargetPath}",
+      "request": "launch",
+      "type": "cortex-debug",
+      "servertype": "external",
+      // This may need to be arm-none-eabi-gdb depending on your system
+      "gdbPath": "arm-none-eabi-gdb",
+      "gdbTarget": "\\\\.\\COM10",
+      "device": "RP2040",
+      "svdFile": "../../pico-sdk/src/rp2040/hardware_regs/rp2040.svd",
+      // runToEntryPoint causes differences in behavour between launch and reset
+      // so best avoided for this use case.
+      //"runToEntryPoint": "main",
+      // breakAfterReset means it consistantly stops in the reset handler code
+      // so we can follow that with some commands to get us to main
+      "breakAfterReset": true,
+      // get_to_main puts a breakpoint at main, gets there, and then remove is
+      // immediately after flashing. This means that by the time any ram based
+      // breakpoints are applied the relevant stuff is in RAM.
+      "postLaunchCommands": [
+        // "break main",
+        // "continue",
+        // "clear main",
+        "monitor get_to_main"
+      ],
+      // With breakAfterReset we have a consistent approach so can use the same
+      // commands to get us to main after a restart...
+      "postRestartCommands": [
+        "monitor get_to_main"
+        // "break main",
+        // "continue",
+        // "clear main"
+      ]
+    }
+  ]
+}

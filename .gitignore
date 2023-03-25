@@ -1,0 +1,16 @@
+/.local
+/firmware/*.dbg
+/firmware/*.lst
+/firmware/*.o
+/firmware/cc65/**
+
+/gal/*.abs
+/gal/*.lst
+/gal/*.sim
+/gal/*.wo
+
+/pico/build/**
+/pico/firmware_files/*
+
+/pico/.vscode/.cortex-debug.peripherals.state.json
+/pico/.vscode/.cortex-debug.registers.state.json

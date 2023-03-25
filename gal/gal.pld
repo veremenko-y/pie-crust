@@ -1,0 +1,79 @@
+Name     gal ;
+PartNo   00 ;
+Date     2022-10-10 ;
+Revision 1.1 ;
+Designer Yaroslav Veremenko ;
+Company   ;
+Assembly  ;
+Location  ;
+Device   g20v8a ;
+Format j ;
+
+
+/* Inputs */
+
+Pin 1 = clk ;
+Pin [2..5] = [ADDR3..0] ;
+Pin 6 = DATA0 ;
+Pin 7 = !DEVSELECT ;
+Pin 8 = !IOSELECT ;
+Pin 9 = !IOSTROBE ;
+Pin 10 = RW ;
+Pin 11 = !RESET ;
+Pin 13 = !oe ;
+Pin 14 = INHIBIT ;
+Pin 22 =  ADDRFF1 ;
+Pin 23 =  ADDRFF2 ;
+Field ADDR = [ADDR3..0] ;
+
+Pin 12 = GND ;
+Pin 24 = VCC ;
+
+/* Outputs */
+
+Pin 15 = PIENABLE ;
+Pin 16 = PIOE ;
+Pin 17 = RAMENABLE ;
+Pin 18 = !RAMOE ;
+Pin 19 = RAM_A12 ;
+
+/* Intermediate */
+
+Pin 20 = RAMEXEC ;
+Pin 21 = C800_EXTENDED;
+READ = RW ;
+WRITE = !RW ;
+
+/* Definition */
+
+/* RAM Exec - IO: Cnn0 */
+RAMEXEC.D =
+      DEVSELECT & ADDR:'h'0 & !INHIBIT & WRITE & DATA0 & !RESET
+      # DEVSELECT & ADDR:'h'0 & INHIBIT & RAMEXEC & !RESET
+      # DEVSELECT & !(ADDR:'h'0) & RAMEXEC & !RESET
+      # !DEVSELECT & RAMEXEC & !RESET ;
+
+/* RAM Bank - IO: Cnn1 */
+RAM_A12.D =
+      DEVSELECT & ADDR:'h'1 & !INHIBIT & !INHIBIT & WRITE & DATA0 & !RESET
+      # DEVSELECT & ADDR:'h'1 & !INHIBIT & INHIBIT & RAM_A12 & !RESET
+      # DEVSELECT & !(ADDR:'h'1) & RAM_A12 & !RESET 
+      # !DEVSELECT & RAM_A12 & !RESET ;
+
+C800_EXTENDED.D =
+      DEVSELECT & !RESET      
+      # !(IOSTROBE & ADDRFF1 & ADDRFF2 & ADDR:'h'F) & C800_EXTENDED & !RESET ;
+
+PIENABLE = DEVSELECT
+      # IOSELECT & (READ & !RAMEXEC # WRITE & RAMEXEC) ;
+
+PIOE = DEVSELECT & READ
+      # IOSELECT & READ & !RAMEXEC ;
+
+RAMENABLE =
+      IOSELECT & (WRITE & !RAMEXEC # READ & RAMEXEC)
+      # IOSTROBE & (WRITE & !RAMEXEC & C800_EXTENDED # READ & C800_EXTENDED) ;
+
+RAMOE =
+      IOSELECT & READ & RAMEXEC
+      # IOSTROBE & READ & C800_EXTENDED ;

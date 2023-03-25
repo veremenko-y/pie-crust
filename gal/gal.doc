@@ -1,0 +1,248 @@
+
+*******************************************************************************
+                                      gal
+*******************************************************************************
+
+CUPL(WM)        5.0a Serial# MW-10400000
+Device          g20v8ms  Library DLIB-h-40-3
+Created         Wed Dec 14 02:37:02 2022
+Name            gal 
+Partno          00 
+Revision        1.1 
+Date            2022-10-10 
+Designer        Yaroslav Veremenko 
+Company         
+Assembly        
+Location        
+
+===============================================================================
+                            Expanded Product Terms
+===============================================================================
+
+ADDR =>
+    ADDR3 , ADDR2 , ADDR1 , ADDR0
+
+C800_EXTENDED.d  =>
+    DEVSELECT & !RESET
+  # !ADDR0 & C800_EXTENDED & !RESET
+  # !ADDR1 & C800_EXTENDED & !RESET
+  # !ADDR2 & C800_EXTENDED & !RESET
+  # !ADDR3 & C800_EXTENDED & !RESET
+  # !ADDRFF1 & C800_EXTENDED & !RESET
+  # !ADDRFF2 & C800_EXTENDED & !RESET
+  # C800_EXTENDED & !IOSTROBE & !RESET
+
+PIENABLE =>
+    DEVSELECT
+  # IOSELECT & !RAMEXEC & RW
+  # IOSELECT & RAMEXEC & !RW
+
+PIOE =>
+    DEVSELECT & RW
+  # IOSELECT & !RAMEXEC & RW
+
+RAMENABLE =>
+    C800_EXTENDED & IOSTROBE & !RAMEXEC
+  # C800_EXTENDED & IOSTROBE & RW
+  # IOSELECT & RAMEXEC & RW
+  # IOSELECT & !RAMEXEC & !RW
+
+RAMEXEC.d  =>
+    ADDR0 & RAMEXEC & !RESET
+  # ADDR1 & RAMEXEC & !RESET
+  # ADDR2 & RAMEXEC & !RESET
+  # ADDR3 & RAMEXEC & !RESET
+  # !DEVSELECT & RAMEXEC & !RESET
+  # INHIBIT & RAMEXEC & !RESET
+  # !ADDR0 & !ADDR1 & !ADDR2 & !ADDR3 & DATA0 & DEVSELECT & !INHIBIT & !RESET & 
+      !RW
+
+RAMOE =>
+    C800_EXTENDED & IOSTROBE & RW
+  # IOSELECT & RAMEXEC & RW
+
+RAM_A12.d  =>
+    !ADDR0 & RAM_A12 & !RESET
+  # ADDR1 & RAM_A12 & !RESET
+  # ADDR2 & RAM_A12 & !RESET
+  # ADDR3 & RAM_A12 & !RESET
+  # !DEVSELECT & RAM_A12 & !RESET
+  # ADDR0 & !ADDR1 & !ADDR2 & !ADDR3 & DATA0 & DEVSELECT & !INHIBIT & !RESET & 
+      !RW
+
+READ =>
+    RW
+
+WRITE =>
+    !RW
+
+ADDRFF1.oe  =>
+    0 
+
+PIENABLE.oe  =>
+    1 
+
+PIOE.oe  =>
+    1 
+
+RAMENABLE.oe  =>
+    1 
+
+RAMOE.oe  =>
+    1 
+
+
+===============================================================================
+                                 Symbol Table
+===============================================================================
+
+Pin Variable                                    Pterms   Max     Min    
+Pol   Name              Ext     Pin     Type     Used   Pterms  Level   
+--- --------            ---     ---     ----    ------  ------  -----   
+
+    ADDR                        0        F        -       -       -     
+    ADDR0                       5        V        -       -       -     
+    ADDR1                       4        V        -       -       -     
+    ADDR2                       3        V        -       -       -     
+    ADDR3                       2        V        -       -       -     
+    ADDRFF1                     22       V        -       -       -     
+    ADDRFF2                     23       V        -       -       -     
+    C800_EXTENDED               21       V        -       -       -     
+    C800_EXTENDED       d       21       X        8       8       2     
+    DATA0                       6        V        -       -       -     
+ !  DEVSELECT                   7        V        -       -       -     
+    GND                         12       V        -       -       -     
+    INHIBIT                     14       V        -       -       -     
+ !  IOSELECT                    8        V        -       -       -     
+ !  IOSTROBE                    9        V        -       -       -     
+    PIENABLE                    15       V        3       7       2     
+    PIOE                        16       V        2       7       2     
+    RAMENABLE                   17       V        4       7       2     
+    RAMEXEC                     20       V        -       -       -     
+    RAMEXEC             d       20       X        7       8       2     
+ !  RAMOE                       18       V        2       7       2     
+    RAM_A12                     19       V        -       -       -     
+    RAM_A12             d       19       X        6       8       2     
+    READ                        0        I        1       -       -     
+ !  RESET                       11       V        -       -       -     
+    RW                          10       V        -       -       -     
+    VCC                         24       V        -       -       -     
+    WRITE                       0        I        1       -       -     
+    clk                         1        V        -       -       -     
+ !  oe                          13       V        -       -       -     
+    ADDRFF1             oe      22       D        1       1       0     
+    PIENABLE            oe      15       D        1       1       0     
+    PIOE                oe      16       D        1       1       0     
+    RAMENABLE           oe      17       D        1       1       0     
+    RAMOE               oe      18       D        1       1       0     
+
+
+LEGEND    D : default variable         F : field      G : group
+          I : intermediate variable    N : node       M : extended node
+          U : undefined                V : variable   X : extended variable
+          T : function
+
+
+===============================================================================
+                                   Fuse Plot
+===============================================================================
+
+Syn   02704 x Ac0   02705 - 
+
+Pin #22  02560  Pol x  02632  Ac1 - 
+ 00000 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 00040 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 00080 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 00120 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 00160 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 00200 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 00240 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 00280 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Pin #21  02561  Pol -  02633  Ac1 x 
+ 00320 ---------------------x--------------x--- 
+ 00360 ----------x--x----------------------x--- 
+ 00400 ---------xx-------------------------x--- 
+ 00440 -----x----x-------------------------x--- 
+ 00480 -x--------x-------------------------x--- 
+ 00520 -------x--x-------------------------x--- 
+ 00560 ---x------x-------------------------x--- 
+ 00600 ----------x-----------------x-------x--- 
+Pin #20  02562  Pol -  02634  Ac1 x 
+ 00640 ------------x-x---------------------x--- 
+ 00680 --------x-----x---------------------x--- 
+ 00720 ----x---------x---------------------x--- 
+ 00760 x-------------x---------------------x--- 
+ 00800 --------------x-----x---------------x--- 
+ 00840 --------------x---------------------x-x- 
+ 00880 -x---x---x---x--x----x-----------x--x--x 
+ 00920 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Pin #19  02563  Pol -  02635  Ac1 x 
+ 00960 -------------x----x-----------------x--- 
+ 01000 --------x---------x-----------------x--- 
+ 01040 ----x-------------x-----------------x--- 
+ 01080 x-----------------x-----------------x--- 
+ 01120 ------------------x-x---------------x--- 
+ 01160 -x---x---x--x---x----x-----------x--x--x 
+ 01200 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 01240 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Pin #18  02564  Pol x  02636  Ac1 - 
+ 01280 ---------------------------------------- 
+ 01320 ----------x------------------x--x------- 
+ 01360 --------------x----------x------x------- 
+ 01400 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 01440 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 01480 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 01520 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 01560 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Pin #17  02565  Pol -  02637  Ac1 - 
+ 01600 ---------------------------------------- 
+ 01640 ----------x----x-------------x---------- 
+ 01680 ----------x------------------x--x------- 
+ 01720 --------------x----------x------x------- 
+ 01760 ---------------x---------x-------x------ 
+ 01800 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 01840 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 01880 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Pin #16  02566  Pol -  02638  Ac1 - 
+ 01920 ---------------------------------------- 
+ 01960 ---------------------x----------x------- 
+ 02000 ---------------x---------x------x------- 
+ 02040 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 02080 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 02120 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 02160 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 02200 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Pin #15  02567  Pol -  02639  Ac1 - 
+ 02240 ---------------------------------------- 
+ 02280 ---------------------x------------------ 
+ 02320 ---------------x---------x------x------- 
+ 02360 --------------x----------x-------x------ 
+ 02400 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 02440 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 02480 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+ 02520 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+
+
+LEGEND    X : fuse not blown 
+          - : fuse blown 
+
+===============================================================================
+                                 Chip Diagram
+===============================================================================
+
+                               ______________
+                              |     gal      |
+                      clk x---|1           24|---x VCC                      
+                    ADDR3 x---|2           23|---x ADDRFF2                  
+                    ADDR2 x---|3           22|---x ADDRFF1                  
+                    ADDR1 x---|4           21|---x C800_EXTENDED            
+                    ADDR0 x---|5           20|---x RAMEXEC                  
+                    DATA0 x---|6           19|---x RAM_A12                  
+               !DEVSELECT x---|7           18|---x !RAMOE                   
+                !IOSELECT x---|8           17|---x RAMENABLE                
+                !IOSTROBE x---|9           16|---x PIOE                     
+                       RW x---|10          15|---x PIENABLE                 
+                   !RESET x---|11          14|---x INHIBIT                  
+                      GND x---|12          13|---x !oe                      
+                              |______________|
+

@@ -1,0 +1,81 @@
+Name     gal ;
+PartNo   00 ;
+Date     2022-10-10 ;
+Revision 1,1 ;
+Designer Yaroslav Veremenko ;
+Company   ;
+Assembly  ;
+Location  ;
+Device   g20v8a ;
+
+ORDER: 
+    clk, !oe, %1, ADDR, %1, "R\W:", RW, %1, " /IO/DEV/STR:", !IOSELECT, !DEVSELECT, !IOSTROBE, " FF:", ADDRFF1, ADDRFF2, " I:", INHIBIT, " D:", DATA0, " /R:", !RESET,
+    " PI/OE:", PIENABLE, !PIOE, " RAM/OE:", RAMENABLE, !RAMOE, %1, 
+    RAMEXEC, RAM_A12, C800_EXTENDED ;
+
+VECTORS:
+$MSG "=== Reset and stabilize ===" ;
+/*L 0001 */ C0'0'111100001**** ***
+/*L 0002 */ C0'0'111100000LHLH ***
+/*L 0003 */ C0'0'111100001LHLH ***
+$MSG "=== Ignore all ===" ;
+    /* Ignore anything when not selected */
+/*L 0004 */ C0'0'011100001LHLH ***
+/*L 0005 */ C0'1'111100001LHLH ***
+/*L 0006 */ C0'F'111100001LHLH ***
+/*L 0007 */ C0'1'011100001LHLH ***
+/*L 0008 */ C0'F'011100001LHLH ***
+    /* IO and DEV access */
+$MSG "=== IO and DEV access ===" ;
+$MSG "    Read PI" ;
+/*L 0009 */ C0'0'101100001HLLH ***
+$MSG "    Write RAM" ;
+/*L 0010 */ C0'0'001100001LHHH ***
+$MSG "    Write RAM C800 Disabled" ;
+/*L 0011 */ C0'0'011000001LHLH ***
+$MSG "    Inhibit doesn't change RAM Exec, but enables C800" ;
+/*L 0012 */ C0'0'010100111HHLH L*H
+$MSG "    Write RAM C800 Enabled" ;
+/*L 0013 */ C0'0'011000001LHHH ***
+$MSG "    Inhibit doesn't change RAM Exec" ;
+/*L 0014 */ C0'0'010100111HHLH L*H
+$MSG "    Enable RAM Exec" ;
+/*L 0015 */ C0'0'010100011HHLH H*H
+$MSG "    Inhibit doesn't change RAM Exec" ;
+/*L 0016 */ C0'0'010100101HHLH H*H
+$MSG "    Disable RAM Exec" ;
+/*L 0017 */ C0'0'010100001HHLH L*H
+$MSG "    Enable RAM Exec" ;
+/*L 0018 */ C0'0'010100011HHLH H*H
+$MSG "    Read RAM" ;
+/*L 0019 */ C0'0'101100001LHHL H*H
+$MSG "    Write PI" ;
+/*L 0020 */ C0'0'001100001HHLH H*H
+$MSG "    NOP C800 Stays" ;
+/*L 0021 */ C0'0'011100001LHLH ***
+$MSG "    Read C800" ;
+/*L 0022 */ C0'0'111000001LHHL ***
+$MSG "    Reset C800 Page (invalid, low nibble is not F)" ;
+/*L 0023 */ C0'0'011011001LHLH H*H
+$MSG "    Reset C800 Page" ;
+/*L 0024 */ C0'F'011011001LHLH H*L
+$MSG "    Read C800 Disabled if C800 Reset" ;
+/*L 0025 */ C0'0'111000001LHLH **L
+$MSG "    Write RAM C800 Disabled" ;
+/*L 0026 */ C0'0'011000001LHLH **L
+$MSG "    Enable A12 Exec" ;
+/*L 0027 */ C0'1'010100011HHLH HHH
+$MSG "    Disable RAM Exec" ;
+/*L 0028 */ C0'0'010100001HHLH LHH
+$MSG "    Read RAM C800 even if RAM Exec is disabled" ;
+/*L 0029 */ C0'0'111000001LHHL LHH
+$MSG "    Read PI ignore A12" ;
+/*L 0030 */ C0'0'101100001HLLH LHH
+$MSG "    Read PI IO" ;
+/*L 0031 */ C0'0'110100001HLLH LHH
+$MSG "    Disable A12 Exec" ;
+/*L 0032 */ C0'1'010100001HHLH LLH
+$MSG "    Read PI IO" ;
+/*L 0033 */ C0'F'110100001HLLH LLH
+$MSG "    Write PI IO" ;
+/*L 0034 */ C0'F'010100001HHLH LLH
