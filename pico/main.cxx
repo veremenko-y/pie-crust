@@ -1,6 +1,11 @@
 #define PARAM_ASSERTIONS_DISABLE_ALL 1
 
+//#define CYW43_CHIPSET_FIRMWARE_INCLUDE_FILE "flash_firmware.h"
 #include "pico/stdlib.h"
+#include "pico/platform.h"
+//#define wifi_nvram_4343 __in_flash("wifi_firmware") wifi_nvram_4343
+//#define CYW43_CHIPSET_FIRMWARE_INCLUDE_FILE __attribute__((aligned(4))) __in_flash("wifi_firmware")
+
 #include "pico/cyw43_arch.h"
 #include "pico/multicore.h"
 #include "hardware/pio.h"
@@ -540,24 +545,24 @@ static void setup_pio()
     bus_dir_program_init(pio, pindirs_bus_sm, offset_pindirs);
 }
 
-// #define DUMMY_BLINK
+#define DUMMY_BLINK
 // #define MODIFY_DEFAULT_CLOCK
 
 int main()
 {
     // Default UART 115400
     stdio_init_all();
-
+    printf("stdio init\n");
     if (cyw43_arch_init())
     {
+    printf("cyw43 init fail\n");
+
         return -1;
     }
+    printf("cyw43 init success\n");
+
 
 #ifdef DUMMY_BLINK
-    if (cyw43_arch_init())
-    {
-        return -1;
-    }
     while (true)
     {
         cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
